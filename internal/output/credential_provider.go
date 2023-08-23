@@ -35,7 +35,7 @@ type CredentialProvider struct {
 	Expiration      string `json:"Expiration"`
 }
 
-// NewCredentialProvider Creates a new
+// NewCredentialProvider creates a new JSON-serializable credential provider.
 func NewCredentialProvider(expiry string) *CredentialProvider {
 	return &CredentialProvider{
 		Version:    1,
