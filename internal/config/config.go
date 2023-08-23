@@ -35,6 +35,8 @@ const (
 
 	// AWSCredentialsFormat format const
 	AWSCredentialsFormat = "aws-credentials"
+	// CredentialProviderFormat format const
+	CredentialProviderFormat = "credential-provider"
 	// EnvVarFormat format const
 	EnvVarFormat = "env-var"
 

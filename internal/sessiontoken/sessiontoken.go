@@ -346,14 +346,22 @@ func (s *SessionToken) renderCredential(ac *oaws.Credential) error {
 	var o output.Outputter
 	switch s.config.Format() {
 	case config.AWSCredentialsFormat:
-		expiry := time.Now().Add(time.Duration(s.config.AWSSessionDuration()) * time.Second).Format(time.RFC3339)
-		o = output.NewAWSCredentialsFile(s.config.LegacyAWSVariables(), s.config.ExpiryAWSVariables(), expiry)
+		o = output.NewAWSCredentialsFile(s.config.LegacyAWSVariables(), s.config.ExpiryAWSVariables(), s.credentialExpiration())
+	case config.CredentialProviderFormat:
+		o = output.NewCredentialProvider(s.credentialExpiration())
+		fmt.Fprintf(os.Stderr, "\n")
 	default:
 		o = output.NewEnvVar(s.config.LegacyAWSVariables())
 		fmt.Fprintf(os.Stderr, "\n")
 	}
 
 	return o.Output(s.config, ac)
+}
+
+// credentialExpiration is the RFC 3339 compliant timestamp which
+// indicates when the credentials expire.
+func (s *SessionToken) credentialExpiration() string {
+	return time.Now().Add(time.Duration(s.config.AWSSessionDuration()) * time.Second).Format(time.RFC3339)
 }
 
 // fetchAWSCredentialWithSAMLRole Get AWS Credentials with an STS Assume Role With SAML AWS
