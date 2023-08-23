@@ -206,7 +206,8 @@ variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvar
 that can be used for the AWS CLI configuration. Output can also be expressed as
 [credential file
 values](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
-for AWS CLI configuration.
+for AWS CLI configuration, or in the [credential provider
+format](https://docs.aws.amazon.com/sdkref/latest/guide/feature-process-credentials.html).
 
 Configuration can be done with command line flags, environment variables, an
 `.env` file, or a combination of the three. The first value found in that
@@ -222,7 +223,7 @@ Also see the CLI's online help `$ okta-aws-cli --help`
 | Preselect the AWS IAM Identity Provider ARN (optional) | `OKTA_AWSCLI_IAM_IDP` | `--aws-iam-idp [value]` | Preselects the IdP list to this preferred IAM Identity Provider. If there are other IdPs available they will not be listed. |
 | Preselects the AWS IAM Role ARN to assume (optional) | `OKTA_AWSCLI_IAM_ROLE` | `--aws-iam-role [value]` | Preselects the role list to this preferred IAM role for the given IAM Identity Provider. If there are other Roles available they will not be listed. |
 | AWS Session Duration (optional) | `OKTA_AWSCLI_SESSION_DURATION` | `--session-duration [value]` | The lifetime, in seconds, of the AWS credentials. Must be between 60 and 43200. |
-| Output format (optional) | `OKTA_AWSCLI_FORMAT` | `--format [value]` | Default is `env-var`. Options: `env-var` for output to environment variables, `aws-credentials` for output to AWS credentials file, `credential-provider` for output in the [credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-process-credentials.html) format |
+| Output format (optional) | `OKTA_AWSCLI_FORMAT` | `--format [value]` | Default is `env-var`. Options: `env-var` for output to environment variables, `aws-credentials` for output to AWS credentials file, `credential-provider` for output in the credential provider format |
 | Profile (optional) | `OKTA_AWSCLI_PROFILE` | `--profile [value]` | Default is `default`  |
 | Display QR Code (optional) | `OKTA_AWSCLI_QR_CODE=true` | `--qr-code` | `true` if flag is present  |
 | Automatically open the activation URL with the system web browser (optional) | `OKTA_AWSCLI_OPEN_BROWSER=true` | `--open-browser` | `true` if flag is present  |
@@ -481,6 +482,40 @@ Otherwise an `Unable to parse config file` error like the following may occur.
 aws --profile example s3 ls
 
 Unable to parse config file: /home/user/.aws/credentials
+```
+
+### AWS credential provider orientated usage
+
+**NOTE**: this example assumes other Okta AWS CLI configuration values have already been
+set by ENV variables or a `.env` file.
+
+Edit the [AWS configuration file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
+In either the `[default]` section or a profile section, add the following
+[configuration setting](https://docs.aws.amazon.com/sdkref/latest/guide/feature-process-credentials.html)
+(the "test" profile is used as an example):
+
+```ini
+[profile test]
+
+credential_process = okta-aws-cli --open-browser --format credential-provider --cache-access-token
+```
+
+Once this is saved, you can run AWS CLI commands or apps that utilize
+AWS SDK APIs and `okta-aws-cli` will automatically be run as part of
+the credential provider chain.
+
+```shell
+$ aws --profile test s3 ls
+
+Open the following URL to begin Okta device authorization for the AWS CLI.
+
+https://test-org.okta.com/activate?user_code=ZNQZQXQQ
+
+? Choose an IdP: arn:aws:iam::123456789012:saml-provider/My_IdP
+? Choose a Role: arn:aws:iam::456789012345:role/My_Role
+
+2018-04-04 11:56:00 test-bucket
+2021-06-10 12:47:11 mah-bucket
 ```
 
 ### Help
