@@ -501,7 +501,7 @@ credential_process = okta-aws-cli --open-browser --format credential-provider --
 ```
 
 Once this is saved, you can run AWS CLI commands or apps that utilize
-AWS SDK APIs and `okta-aws-cli` will automatically be run as part of
+AWS SDK APIs, and `okta-aws-cli` will automatically be run as part of
 the credential provider chain.
 
 ```shell
