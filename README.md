@@ -222,7 +222,7 @@ Also see the CLI's online help `$ okta-aws-cli --help`
 | Preselect the AWS IAM Identity Provider ARN (optional) | `OKTA_AWSCLI_IAM_IDP` | `--aws-iam-idp [value]` | Preselects the IdP list to this preferred IAM Identity Provider. If there are other IdPs available they will not be listed. |
 | Preselects the AWS IAM Role ARN to assume (optional) | `OKTA_AWSCLI_IAM_ROLE` | `--aws-iam-role [value]` | Preselects the role list to this preferred IAM role for the given IAM Identity Provider. If there are other Roles available they will not be listed. |
 | AWS Session Duration (optional) | `OKTA_AWSCLI_SESSION_DURATION` | `--session-duration [value]` | The lifetime, in seconds, of the AWS credentials. Must be between 60 and 43200. |
-| Output format (optional) | `OKTA_AWSCLI_FORMAT` | `--format [value]` | Default is `env-var`. Options: `env-var` for output to environment variables, `aws-credentials` for output to AWS credentials file |
+| Output format (optional) | `OKTA_AWSCLI_FORMAT` | `--format [value]` | Default is `env-var`. Options: `env-var` for output to environment variables, `aws-credentials` for output to AWS credentials file, `credential-provider` for output in the [credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-process-credentials.html) format |
 | Profile (optional) | `OKTA_AWSCLI_PROFILE` | `--profile [value]` | Default is `default`  |
 | Display QR Code (optional) | `OKTA_AWSCLI_QR_CODE=true` | `--qr-code` | `true` if flag is present  |
 | Automatically open the activation URL with the system web browser (optional) | `OKTA_AWSCLI_OPEN_BROWSER=true` | `--open-browser` | `true` if flag is present  |
