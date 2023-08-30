@@ -105,7 +105,7 @@ func init() {
 			name:   config.FormatFlag,
 			short:  "f",
 			value:  "",
-			usage:  "Output format. [env-var|aws-credentials|credentials-provider]",
+			usage:  "Output format. [env-var|aws-credentials|credential-provider]",
 			envVar: config.FormatEnvVar,
 		},
 		{
